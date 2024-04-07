@@ -116,16 +116,12 @@
 </head>
 
 <body>
-    <form action="/admin/schedules/store" method="POST">
-        <h1>Booking Form</h1>
+    <form action="/admin/schedules/{{$doctor->id}}/store" method="POST">
+        <h1>Create Schedule</h1>
         @csrf
         <div>
             <label>Doctor Name</label>
-            <select name="doctor_id">
-                @foreach($doctors as $doctor)
-                <option value="{{$doctor->id}}" name="doctor_id">{{$doctor->name}}</option>
-                @endforeach
-            </select>
+            <label value="{{$doctor->id}}" name="doctor_id">{{$doctor->name}}</label>
         </div>
         @error('doctor')
         <p>{{$message}}</p>

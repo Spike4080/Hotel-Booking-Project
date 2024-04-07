@@ -26,7 +26,7 @@ class RegisterController extends Controller
         $user->username = request('username');
         $user->email = request('email');
         $user->password = request('password');
-        $user->role_id = auth()->user()->role_id ?? 3;
+        $user->role_id = auth()->user()->role_id ?? 2;
         $user->save();
 
         return redirect('/');

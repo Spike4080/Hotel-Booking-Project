@@ -31,66 +31,38 @@
                 <div class="border border-black mx-5"></div>
 
                 <div>
-                    @if(auth()->user()->role_id==1)
                     <ul class="p-4 my-9 font-semibold">
-                        <a href="/admin/users">
-                            <li class="my-5 p-3 flex">
-                                <span class="material-symbols-outlined"> group </span>
-                                <p class="ml-1">Users</p>
-                            </li>
-                        </a>
-                        <a href="/admin/doctors">
-                            <li class="my-5 p-3 flex">
-                                <span class="material-symbols-outlined"> group </span>
-                                <p class="ml-1">Doctors</p>
-                            </li>
-                        </a>
-                        <a href="/admin/medicalRecords">
-                            <li class="my-5 p-3 flex">
-                                <span class="material-symbols-outlined"> group </span>
-                                <p class="ml-1">Medical Reocrd</p>
-                            </li>
-                        </a>
-                        <a href="/admin/Booking">
-                            <li class="my-5 p-3 flex">
-                                <span class="material-symbols-outlined"> group </span>
-                                <p class="ml-1">Booking</p>
-                            </li>
-                        </a>
-                        <a href="/">
-                            <li class="my-5 p-3 flex text-red-500">
-                                <span class="material-symbols-outlined"> logout </span>
-                                <p class="ml-1">logout</p>
-                            </li>
-                        </a>
-                    </ul>
-                    @elseif(auth()->user()->role_id==2)
-                    <ul class="p-4 my-9 font-semibold">
-                        <a href="/admin/doctors/{{$doctor->id}}/profile">
+                        <a href="/admin/doctors/{{auth()->id()}}/profile/show">
                             <li class="my-5 p-3 flex">
                                 <span class="material-symbols-outlined"> group </span>
                                 <p class="ml-1">Profile</p>
                             </li>
                         </a>
-                        <a href="/admin/Booking">
-                            <li class="my-5 p-3 flex">
-                                <span class="material-symbols-outlined"> group </span>
-                                <p class="ml-1">Booking</p>
-                            </li>
-                        </a>
                         <a href="/admin/medicalRecords">
                             <li class="my-5 p-3 flex">
                                 <span class="material-symbols-outlined"> group </span>
                                 <p class="ml-1">Medical Reocrd</p>
                             </li>
                         </a>
-                        <a href="/admin/medicalRecords/create">
+                        <a href="/admin/Bookings/booking">
+                            <li class="my-5 p-3 flex">
+                                <span class="material-symbols-outlined"> group </span>
+                                <p class="ml-1">Booking List</p>
+                            </li>
+                        </a>
+                        <a href="/admin/Schedule">
+                            <li class="my-5 p-3 flex">
+                                <span class="material-symbols-outlined"> group </span>
+                                <p class="ml-1">Schedule</p>
+                            </li>
+                        </a>
+                        <a href="/admin/medicalRecords/{{auth()->id()}}/create">
                             <li class="my-5 p-3 flex">
                                 <span class="material-symbols-outlined"> group </span>
                                 <p class="ml-1">Create Medical Record</p>
                             </li>
                         </a>
-                        <a href="/admin/schedules/create">
+                        <a href="/admin/schedules/{{auth()->id()}}/create">
                             <li class="my-5 p-3 flex">
                                 <span class="material-symbols-outlined"> group </span>
                                 <p class="ml-1">Create Schedule</p>
@@ -102,8 +74,6 @@
                                 <p class="ml-1">logout</p>
                             </li>
                         </a>
-                    </ul>
-                    @endif
                 </div>
             </div>
             <!-- left side bar -->

@@ -15,16 +15,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Role::create([
-            'name' => 'admin',
+            'name' => 'doctor',
             'id' => 1
         ]);
         Role::create([
-            'name' => 'doctor',
-            'id' => 2
-        ]);
-        Role::create([
             'name' => 'user',
-            'id' => 3
+            'id' => 2
         ]);
     }
 }

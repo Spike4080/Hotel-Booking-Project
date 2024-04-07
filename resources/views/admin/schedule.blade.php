@@ -9,16 +9,16 @@
                             ID
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Name
+                            Treatment
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Address
+                            Doctor
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Appoinments_Time
+                            Patient
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Schedules
+                            Date
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Action
@@ -27,40 +27,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($bookings as $booking)
+                    @foreach($medicalRecords as $record)
                     <tr class="bg-white border-b dark:bg-white-800 dark:border-white-700 hover:bg-white-50 dark:hover:bg-white-600">
                         <td class="w-4 p-4">
-                            {{$booking->id}}
+                            {{$record->id}}
                         </td>
                         <td class="flex items-center px-6 py-4 text-black-900 whitespace-nowrap dark:text-black">
-                            <img class="w-10 h-10 rounded-full" src="{{$booking->doctor->photo}}" alt="Jese image">
                             <div class="ps-3">
-                                <div class="text-base font-semibold">{{$booking->doctor->name}}</div>
+                                <div class="text-base font-semibold">{{$record->treatment}}</div>
                             </div>
                         </td>
                         <td class="w-4 p-4">
-                            <p class="font-semibold">{{$booking->doctor->address}}</p>
+                            <p class="font-semibold">{{$record->doctor->name}}</p>
+                        </td>
+                        <td class="w-4 p-4">
+                            <p class="font-semibold">{{$record->user->name}}</p>
+                        </td>
+                        <td class="w-4 p-4">
+                            <p class="font-semibold">{{$record->date}}</p>
                         </td>
                         <td class="w-4 p-4">
 
                         </td>
-                        <td class="w-4 p-4">
-                            {{$booking->start_time}}
-                        </td>
-                        <td class="w-4 p-4 flex">
-                            <form action="/admin/Booking/{{$booking->id}}/accept" method="POST">
-                                @csrf
-
-                                <button type="submit" class="p-3 bg-green-400 mx-3 rounded-xd">Accept</button>
-                            </form>
-
-                            <form action="/admin/Booking/{{$booking->id}}/deny" method="POST">
-                                @csrf
-
-                                <button type="submit" class="p-3 bg-yellow-400 rounded-xd">Deny</button>
-                            </form>
-                        </td>
-
                     </tr>
                     @endforeach
                 </tbody>

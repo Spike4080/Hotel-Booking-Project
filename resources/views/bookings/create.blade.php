@@ -120,14 +120,6 @@
         <h1>Booking Form</h1>
         @csrf
         <div>
-            <label>Name</label>
-            <input type="text" placeholder="Name" name="name" value="{{old('name')}}">
-
-        </div>
-        @error('name')
-        <p>{{$message}}</p>
-        @enderror
-        <div>
             <label>Phone</label>
             <input type="number" placeholder="Phone" name="phone" value="{{old('phone')}}">
 
@@ -144,9 +136,13 @@
         @enderror
         <div>
             <label>Choose a time for your appointment:</label>
-            <input type="datetime-local" name="start_time">
+            <select name="start_time">
+                @foreach($schedules as $schedule)
+                <option value="{{$schedule->book_time}}">{{$schedule->book_time}}</option>
+                @endforeach
+            </select>
         </div>
-        <button type="submit">Book Appointment</button>
+        <button type=" submit">Book Appointment</button>
     </form>
 </body>
 

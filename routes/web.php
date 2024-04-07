@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\MustBeAdminUser;
 use App\Http\Middleware\MustBeGuestUser;
 use App\Http\Middleware\MustBeLoginUser;
+use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +53,9 @@ Route::middleware(MustBeLoginUser::class)->group(function () {
     Route::delete('/users/{user}/bookings/{booking}/delete', [BookingController::class, 'delete']);
 
     Route::get('/users/{user}/medicalRecords', [MedicalRecordController::class, 'show']);
+
+    Route::get('/doctors', [DoctorController::class, 'index']);
+    Route::get('/doctors/{doctor}/detail', [DoctorController::class, 'detail']);
 });
 
 Route::middleware(MustBeGuestUser::class)->group(function () {
@@ -63,21 +67,21 @@ Route::middleware(MustBeGuestUser::class)->group(function () {
 });
 
 Route::middleware(MustBeAdminUser::class)->group(function () {
-    Route::get('/admin/users', [AdminController::class, 'showUsers']);
-    Route::get('/admin/doctors', [AdminController::class, 'showDoctors']);
-    // 
-    Route::get('/admin/doctors/create', [AdminController::class, 'create']);
-    Route::post('/admin/doctors/store', [AdminController::class, 'store']);
-    // 
-    Route::get('/admin/schedules/create', [AdminController::class, 'createTime']);
-    Route::post('/admin/schedules/store', [AdminController::class, 'storeTime']);
-    Route::get('/admin/medicalRecords/create', [AdminController::class, 'createRecord']);
-    Route::post('/admin/medicalRecords/store', [AdminController::class, 'storeRecord']);
+    //
+    Route::get('/admin/Schedule', [AdminController::class, 'indexTime']);
+    Route::get('/admin/schedules/{user}/create', [AdminController::class, 'createTime']);
+    Route::post('/admin/schedules/{doctor}/store', [AdminController::class, 'storeTime']);
+    Route::get('/admin/medicalRecords/{user}/create', [AdminController::class, 'createRecord']);
+    Route::post('/admin/medicalRecords/{user}/store', [AdminController::class, 'storeRecord']);
     Route::get('/admin/medicalRecords', [AdminController::class, 'showRecords']);
-
-    Route::get('/admin/Booking', [AdminController::class, 'showBook']);
-
-    Route::get('/admin/doctors/{doctor}/profile', [AdminController::class, 'index']);
+    Route::get('/admin/Bookings/booking', [AdminController::class, 'showBook']);
 
     Route::patch('/admin/users/roles/edit', [AdminController::class, 'editRole']);
+
+    Route::get('/admin/doctors/{user}/profile/show', [AdminController::class, 'show']);
+    Route::get('/admin/doctors/{doctor}/profile/edit', [AdminController::class, 'edit']);
+    Route::patch('/admin/doctors/{doctor}/profile/update', [AdminController::class, 'store']);
+
+    Route::post('/admin/Booking/{booking}/accept', [AdminController::class, 'acceptBook']);
+    Route::post('/admin/Booking/{booking}/deny', [AdminController::class, 'denyBook']);
 });

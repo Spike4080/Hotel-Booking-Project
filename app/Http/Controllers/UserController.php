@@ -42,7 +42,7 @@ class UserController extends Controller
         $user->username = request('username');
         $user->email = request('email');
         $user->password = request('password');
-        $user->role_id = auth()->user()->role_id ?? 3;
+        $user->role_id = auth()->user()->role_id ?? 2;
         $user->save();
 
         return redirect('/users/user/profile');
@@ -51,7 +51,6 @@ class UserController extends Controller
     public function deleteProfile(User $user)
     {
         $user->delete();
-        $user->blogs()->delete();
         return redirect('/login');
     }
 

@@ -47,14 +47,6 @@
                         </li>
                         @if(auth()->user()->role_id == 1)
                         <li class=" px-4 text-4xl grid place-items-center">
-                            <a href="/admin/users">
-                                <span class="material-symbols-outlined">
-                                    person
-                                </span>
-                            </a>
-                        </li>
-                        @elseif(auth()->user()->role_id == 2)
-                        <li class=" px-4 text-4xl grid place-items-center">
                             <a href="/admin/medicalRecords">
                                 <span class="material-symbols-outlined">
                                     person

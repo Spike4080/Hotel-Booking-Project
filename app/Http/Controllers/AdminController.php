@@ -9,76 +9,60 @@ use App\Models\Role;
 use App\Models\Schedule;
 use App\Models\User;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Cast\Bool_;
 
 class AdminController extends Controller
 {
-    public function showUsers()
+    public function insertDoctorsWithRole1()
     {
-        $users = User::all();
-        return view('admin.users', [
-            'users' => $users,
-            'roles' => Role::all()
-        ]);
+        $users = User::where('role_id', 1)->get();
+
+        foreach ($users as $user) {
+            $doctor = new Doctor();
+            $doctor->id = $user->id;
+            $doctor->save();
+        }
     }
-
-    public function showDoctors()
-    {
-        $doctors = Doctor::all();
-        return view('admin.doctors', [
-            'doctors' => $doctors
-        ]);
-    }
-
-    public function create()
-    {
-        return view('admin.createDoctor');
-    }
-
-    public function store()
-    {
-        request()->validate([
-            'name' => ['required'],
-            'photo' => ['nullable'],
-            'description' => ['required', 'min:10', 'max:300'],
-            'address' => ['required', 'min:2', 'max:100']
-        ]);
-
-        $doctor = new Doctor();
-        $doctor->name = request('name');
-        $doctor->photo = '/storage/' . request('photo')->store('/doctors');
-        $doctor->description = request('description');
-        $doctor->address = request('address');
-        $doctor->save();
-
-        return redirect('/admin/doctors');
-    }
-
-    public function createTime()
+    public function createTime(User $user)
     {
         return view('admin.createTime', [
-            'doctors' => Doctor::all()
+            'doctor' => Doctor::where('name', $user->name)->first()
         ]);
     }
 
-    public function storeTime()
+    public function indexTime()
+    {
+        return view('admin.schedule');
+    }
+
+    public function storeTime(Doctor $doctor)
     {
         request()->validate([
-            'doctor_id' => ['required'],
-            'book_time' => ['nullable'],
+            'book_time' => ['required'],
         ]);
 
         $schedule = new Schedule();
-        $schedule->doctor_id = request('doctor_id');
         $schedule->book_time = request('book_time');
+        $schedule->doctor_id = $doctor->id;
         $schedule->save();
 
-        return redirect('/admin/doctors');
+
+        return redirect('/');
     }
 
-    public function createRecord()
+    public function createRecord(User $user)
     {
+        $user_id = $user->id;
+        $doctor = Doctor::where('name', $user->name)->first();
+        @dd($user->id, $doctor->id);
+
+        $medicalRecords = MedicalRecord::where('user_id', $user_id)
+            ->where('doctor_id', $doctor->id)
+            ->get();
+
+        @dd($medicalRecords);
+        // Error
         return view('admin.createRecord', [
-            'doctors' => Doctor::all(),
             'users' => User::all()
         ]);
     }
@@ -111,14 +95,10 @@ class AdminController extends Controller
 
     public function showBook()
     {
-        $bookings = Booking::all();
+        $doctor = Doctor::where('name', auth()->user()->name)->first();
         return view('admin.booking', [
-            'bookings' => $bookings
+            'bookings' => Booking::where('doctor_id', $doctor->id)->get()
         ]);
-    }
-
-    public function index(User $userr)
-    {
     }
 
     public function editRole(User $user)
@@ -127,5 +107,42 @@ class AdminController extends Controller
         $user->save();
 
         return redirect('admin/users');
+    }
+
+    public function show(User $user)
+    {
+        $doctor = Doctor::where('name', $user->name)->first();
+        return view('admin.profile', [
+            'doctor' => $doctor
+        ]);
+    }
+
+    public function edit(Doctor $doctor)
+    {
+        return view('admin.editProfile', [
+            'doctor' => $doctor
+        ]);
+    }
+
+    public function store(Doctor $doctor)
+    {
+        request()->validate([
+            'description' => ['required'],
+            'address' => ['required']
+        ]);
+
+        $doctor->description = request('description');
+        $doctor->name = auth()->user()->name;
+        $doctor->role_id = auth()->user()->role_id;
+        $doctor->address = request('address');
+        $doctor->photo = '/storage/' . request('photo')->store('/doctors', 'public');
+        $doctor->save();
+
+        return redirect('/admin/medicalRecords');
+    }
+
+    public function acceptBook(Booking $booking)
+    {
+        $booking->update(['status' => true]);
     }
 }

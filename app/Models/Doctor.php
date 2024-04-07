@@ -17,9 +17,7 @@ class Doctor extends Model
     public function scopeFilter($query, $filters)
     {
         $query->when(isset($filters['search']) && $filters['search'], function ($query) use ($filters) {
-            $query->whereHas('doctor', function ($query) use ($filters) {
-                $query->where('name', 'like', '%' . $filters['search'] . '%');
-            });
+            $query->where('name', 'like', '%' . $filters['search'] . '%');
         });
     }
 

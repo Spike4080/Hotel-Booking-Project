@@ -104,17 +104,10 @@
 </head>
 
 <body>
-    <form action="/admin/doctors/store" method="POST" enctype="multipart/form-data">
-        <h1>Create Doctor</h1>
+    <form action="/admin/doctors/{{$doctor->id}}/profile/update" method="POST" enctype="multipart/form-data">
+        <h1>Edit Profile</h1>
+        @method('PATCH')
         @csrf
-        <div>
-            <label>Name</label>
-            <input type="text" placeholder="Name" name="name" value="{{old('name')}}">
-
-        </div>
-        @error('name')
-        <p>{{$message}}</p>
-        @enderror
         <div>
             <label>Description</label>
             <input type="text" placeholder="Description" name="description" value="{{old('description')}}">

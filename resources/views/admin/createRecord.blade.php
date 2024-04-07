@@ -128,14 +128,12 @@
 
 <body>
     <form action="/admin/medicalRecords/store" method="POST">
-        <h1>Booking Form</h1>
+        <h1>Create Medical Record</h1>
         @csrf
         <div>
-            <label>Choose Doctor</label>
+            <label>Doctor</label>
             <select name="doctor_id">
-                @foreach($doctors as $doctor)
                 <option value="{{$doctor->id}}">{{$doctor->name}}</option>
-                @endforeach
             </select>
         </div>
         @error('doctor_id')

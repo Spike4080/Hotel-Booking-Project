@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Doctor;
+use App\Models\Schedule;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -39,21 +40,21 @@ class BookingController extends Controller
 
     public function createBook(Doctor $doctor)
     {
+        $schedules = Schedule::where('doctor_id', $doctor->id)->get();
         return view('bookings.create', [
-            'doctor' => $doctor
+            'doctor' => $doctor,
+            'schedules' => $schedules
         ]);
     }
 
     public function storeBook(Doctor $doctor)
     {
         request()->validate([
-            'name' => ['required', 'min:3', 'max:20'],
             'phone' => ['required', 'min:3', 'max:20'],
             'start_time' => ['required']
         ]);
 
         $booking = new Booking();
-        $booking->name = request('name');
         $booking->phone = request('phone');
         $booking->user_id = auth()->id();
         $booking->doctor_id = $doctor->id;
