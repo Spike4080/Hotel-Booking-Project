@@ -43,6 +43,7 @@ class UserController extends Controller
         $user->email = request('email');
         $user->password = request('password');
         $user->role_id = auth()->user()->role_id ?? 2;
+        $user->photo = '/storage/' . request('photo')->store('/users', 'public');
         $user->save();
 
         return redirect('/users/user/profile');

@@ -48,17 +48,18 @@
                             {{$booking->start_time}}
                         </td>
                         <td class="w-4 p-4 flex">
+                            @if($booking->status==0)
                             <form action="/admin/Booking/{{$booking->id}}/accept" method="POST">
                                 @csrf
-
                                 <button type="submit" class="p-3 bg-green-400 mx-3 rounded-xd">Accept</button>
                             </form>
-
+                            @else
                             <form action="/admin/Booking/{{$booking->id}}/deny" method="POST">
                                 @csrf
 
                                 <button type="submit" class="p-3 bg-yellow-400 rounded-xd">Deny</button>
                             </form>
+                            @endif
                         </td>
 
                     </tr>

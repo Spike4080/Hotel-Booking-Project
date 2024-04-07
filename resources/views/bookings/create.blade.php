@@ -138,7 +138,12 @@
             <label>Choose a time for your appointment:</label>
             <select name="start_time">
                 @foreach($schedules as $schedule)
-                <option value="{{$schedule->book_time}}">{{$schedule->book_time}}</option>
+
+
+                <option value="{{$schedule->book_time}}">
+                    {{ \Carbon\Carbon::parse($schedule->book_time)->format('d-n-Y h:i A') }}
+                </option>
+
                 @endforeach
             </select>
         </div>

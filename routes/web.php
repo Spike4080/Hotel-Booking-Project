@@ -69,10 +69,15 @@ Route::middleware(MustBeGuestUser::class)->group(function () {
 Route::middleware(MustBeAdminUser::class)->group(function () {
     //
     Route::get('/admin/Schedule', [AdminController::class, 'indexTime']);
+
+    Route::get('/admin/Schedules/{schedule}/edit', [AdminController::class, 'editTime']);
+    Route::post('/admin/Schedules/{schedule}/update', [AdminController::class, 'updateTime']);
+    Route::delete('/admin/Schedules/{schedule}/delete', [AdminController::class, 'deleteTime']);
+
     Route::get('/admin/schedules/{user}/create', [AdminController::class, 'createTime']);
     Route::post('/admin/schedules/{doctor}/store', [AdminController::class, 'storeTime']);
     Route::get('/admin/medicalRecords/{user}/create', [AdminController::class, 'createRecord']);
-    Route::post('/admin/medicalRecords/{user}/store', [AdminController::class, 'storeRecord']);
+    Route::post('/admin/medicalRecords/store', [AdminController::class, 'storeRecord']);
     Route::get('/admin/medicalRecords', [AdminController::class, 'showRecords']);
     Route::get('/admin/Bookings/booking', [AdminController::class, 'showBook']);
 

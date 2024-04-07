@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->text('name');
             $table->string('photo')->nullable();
-            $table->dateTime('appoinments_time')->nullable();
             $table->timestamps();
         });
     }

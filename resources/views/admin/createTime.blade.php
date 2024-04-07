@@ -130,7 +130,7 @@
             <label>Choose a time for your appointment:</label>
             <input type="datetime-local" name="book_time">
         </div>
-        <button type="submit">Book Appointment</button>
+        <button type="submit">Create Schedule</button>
     </form>
 </body>
 

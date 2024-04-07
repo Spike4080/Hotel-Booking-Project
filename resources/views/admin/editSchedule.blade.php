@@ -50,17 +50,6 @@
             background: transparent;
         }
 
-        div textarea {
-            padding: 10px;
-            border: none;
-            outline: none;
-            font-size: 1rem;
-            border-bottom: 2px solid #bbb;
-            box-sizing: border-box;
-            width: 100%;
-            background: transparent;
-        }
-
         div select {
             padding: 10px;
             border: none;
@@ -127,32 +116,14 @@
 </head>
 
 <body>
-    <form action="/admin/medicalRecords/store" method="POST">
-        <h1>Create Medical Record</h1>
+    <form action="/admin/Schedules/{{$schedule->id}}/update" method="POST">
+        <h1>Edit Schedule</h1>
         @csrf
         <div>
-            <label>Doctor</label>
-            <label>{{$doctor->name}}</label>
+            <label>Choose a time for your appointment:</label>
+            <input type="datetime-local" name="book_time">
         </div>
-        @error('doctor_id')
-        <p>{{$message}}</p>
-        @enderror
-        <div>
-            <label>Choose Patient</label>
-            <select name="user_id">
-                @foreach($users as $user)
-                <option value="{{$user->id}}">{{$user->name}}</option>
-                @endforeach
-            </select>
-        </div>
-        @error('user_id')
-        <p>{{$message}}</p>
-        @enderror
-        <div>
-            <label>Treatment</label>
-            <textarea name="treatment"></textarea>
-        </div>
-        <button type="submit">Create Record</button>
+        <button type="submit">Book Appointment</button>
     </form>
 </body>
 

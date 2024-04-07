@@ -32,7 +32,31 @@ class AdminController extends Controller
 
     public function indexTime()
     {
-        return view('admin.schedule');
+        $doctor = Doctor::where('name', auth()->user()->name)->first();
+        $schedules = Schedule::where('doctor_id', $doctor->id)->get();
+        return view('admin.schedule', [
+            'schedules' => $schedules
+        ]);
+    }
+
+    public function editTime(Schedule $schedule)
+    {
+        return view('admin.editSchedule', [
+            'schedule' => $schedule
+        ]);
+    }
+
+    public function updateTime(Schedule $schedule)
+    {
+        $schedule->update(['book_time' => request('book_time')]);
+
+        return redirect('/admin/Schedule');;
+    }
+
+    public function deleteTime(Schedule $schedule)
+    {
+        $schedule->delete();
+        return redirect('/admin/Schedule');
     }
 
     public function storeTime(Doctor $doctor)
@@ -47,49 +71,46 @@ class AdminController extends Controller
         $schedule->save();
 
 
-        return redirect('/');
+        return redirect('/admin/Schedule');
     }
 
     public function createRecord(User $user)
     {
-        $user_id = $user->id;
         $doctor = Doctor::where('name', $user->name)->first();
-        @dd($user->id, $doctor->id);
-
-        $medicalRecords = MedicalRecord::where('user_id', $user_id)
-            ->where('doctor_id', $doctor->id)
-            ->get();
-
-        @dd($medicalRecords);
-        // Error
+        $users = User::where('role_id', 2)->get();
+        $medicalRecords = MedicalRecord::where('doctor_id', $doctor->id)->get();
         return view('admin.createRecord', [
-            'users' => User::all()
+            'medicalRecords' => $medicalRecords,
+            'doctor' => $doctor,
+            'users' => $users
+
         ]);
     }
 
     public function storeRecord()
     {
+
         request()->validate([
-            'doctor_id' => ['required'],
             'user_id' => ['required'],
             'treatment' => ['required', 'min:3', 'max:200'],
-            'date' => ['required'],
         ]);
 
         $medicalRecord = new MedicalRecord();
-        $medicalRecord->doctor_id = request('doctor_id');
+        $medicalRecord->doctor_id = Doctor::where('name', auth()->user()->name)->first()->id;
         $medicalRecord->user_id = request('user_id');
         $medicalRecord->treatment = request('treatment');
-        $medicalRecord->date = request('date');
+        $medicalRecord->date = now();
         $medicalRecord->save();
 
-        return redirect('/admin/users');
+        return redirect('/admin/medicalRecords');
     }
 
     public function showRecords()
     {
-        return view('admin/medicalRecords', [
-            'medicalRecords' => MedicalRecord::all()
+        $doctor = Doctor::where('name', auth()->user()->name)->first();
+        $medicalRecords = MedicalRecord::where('doctor_id', $doctor->id)->get();
+        return view('admin.medicalRecords', [
+            'medicalRecords' => $medicalRecords
         ]);
     }
 
@@ -144,5 +165,12 @@ class AdminController extends Controller
     public function acceptBook(Booking $booking)
     {
         $booking->update(['status' => true]);
+        return back();
+    }
+
+    public function denyBook(Booking $booking)
+    {
+        $booking->update(['status' => false]);
+        return back();
     }
 }

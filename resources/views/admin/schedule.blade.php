@@ -9,45 +9,42 @@
                             ID
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Treatment
+                            Doctor Name
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Doctor
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Patient
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Date
+                            Schedule Time
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Action
                         </th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($medicalRecords as $record)
+                    @foreach($schedules as $schedule)
                     <tr class="bg-white border-b dark:bg-white-800 dark:border-white-700 hover:bg-white-50 dark:hover:bg-white-600">
                         <td class="w-4 p-4">
-                            {{$record->id}}
-                        </td>
-                        <td class="flex items-center px-6 py-4 text-black-900 whitespace-nowrap dark:text-black">
-                            <div class="ps-3">
-                                <div class="text-base font-semibold">{{$record->treatment}}</div>
-                            </div>
+                            {{$schedule->id}}
                         </td>
                         <td class="w-4 p-4">
-                            <p class="font-semibold">{{$record->doctor->name}}</p>
+                            <p class="font-semibold">{{$schedule->doctor->name}}</p>
                         </td>
                         <td class="w-4 p-4">
-                            <p class="font-semibold">{{$record->user->name}}</p>
-                        </td>
-                        <td class="w-4 p-4">
-                            <p class="font-semibold">{{$record->date}}</p>
-                        </td>
-                        <td class="w-4 p-4">
+                            <p class="font-semibold">
+                                {{ \Carbon\Carbon::parse($schedule->book_time)->format('d-n-Y h:i A') }}
+                            </p>
 
+                        </td>
+                        <td class="w-4 p-4 flex">
+                            <a href="/admin/Schedules/{{$schedule->id}}/edit">
+                                <button class="p-3 bg-green-400 mx-3 rounded-xd">Edit</button>
+                            </a>
+                            <form action="/admin/Schedules/{{$schedule->id}}/delete" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <a href="">
+                                    <button class="p-3 bg-yellow-400 rounded-xd">Delete</button>
+                                </a>
+                            </form>
                         </td>
                     </tr>
                     @endforeach

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
     use HasFactory;
+    protected $fillable = ['book_time'];
 
     public function doctor()
     {
